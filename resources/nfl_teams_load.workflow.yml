@@ -1,0 +1,17 @@
+name: NFL Teams Data Load
+schedule:
+  quartz_cron_expression: "0 0 4 * * ?"  # Runs daily at 4 AM
+  timezone_id: "America/New_York"
+
+tasks:
+  - task_key: "load_nfl_teams"
+    notebook_task:
+      notebook_path: "/src/dev_dfl/load_nfl_teams"
+      source: "WORKSPACE"
+    email_notifications:
+      on_failure:
+        - your.email@example.com  # Replace with your email
+    timeout_seconds: 600
+    retry_on_failure:
+      max_retries: 2
+      min_seconds_between_retries: 300

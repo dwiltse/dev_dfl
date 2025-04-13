@@ -1,0 +1,14 @@
+# The main pipeline for dev_dfl
+resources:
+  pipelines:
+    dev_dfl_pipeline:
+      name: dev_dfl_pipeline
+      ## Specify the 'catalog' field to configure this pipeline to make use of Unity Catalog:
+      # catalog: catalog_name
+      schema: dev_dfl_${bundle.target}
+      libraries:
+        - notebook:
+            path: ../src/dlt_pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src
