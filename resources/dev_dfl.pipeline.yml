@@ -3,9 +3,8 @@ resources:
   pipelines:
     dev_dfl_pipeline:
       name: dev_dfl_pipeline
-      ## Specify the 'catalog' field to configure this pipeline to make use of Unity Catalog:
-      # catalog: catalog_name
-      schema: dev_dfl_${bundle.target}
+      catalog: ${bundle.target}_dfl
+      schema: nfl
       libraries:
         - notebook:
             path: ../src/dlt_pipeline.ipynb

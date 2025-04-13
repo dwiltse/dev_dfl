@@ -1,0 +1,49 @@
+resources:
+  catalogs:
+    dev_dfl:
+      name: dev_dfl
+      owner: dwiltse12@gmail.com
+      properties:
+        purpose: "Development catalog for NFL data"
+    
+    prod_dfl:
+      name: prod_dfl
+      owner: dwiltse12@gmail.com
+      properties:
+        purpose: "Production catalog for NFL data"
+
+  jobs:
+    teams_setup:
+      name: "NFL Teams Bronze Load"  # Updated name to reflect bronze layer
+      tasks:
+        - task_key: "ingest_teams"
+          job_cluster_key: ref_cluster
+          notebook_task:
+            notebook_path: "/src/ingestion/load_nfl_teams"
+            source: "WORKSPACE"
+
+        - task_key: "create_bronze_table"
+          depends_on:
+            - task_key: "ingest_teams"
+          job_cluster_key: ref_cluster
+          sql_task:
+            file:
+              path: "/src/databricks/create_nfl_teams_table.sql"
+
+      job_clusters:
+        - job_cluster_key: ref_cluster
+          new_cluster:
+            spark_version: 15.4.x-scala2.12  # Includes R runtime
+            node_type_id: Standard_DS3_v2    # Smaller instance type
+            num_workers: 0                    # Single-node cluster
+            spark_conf:
+              "spark.databricks.cluster.profile": "singleNode"
+              "spark.master": "local[*]"
+            custom_tags:
+              ResourceClass: "SingleNode"
+            init_scripts:
+              - dbfs:
+                  destination: "dbfs:/databricks/scripts/install-r-packages.sh"
+                  content: |
+                    #!/bin/bash
+                    Rscript -e "install.packages(c('nflreadr', 'arrow', 'tidyverse'), repos='https://cloud.r-project.org')"
