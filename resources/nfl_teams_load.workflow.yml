@@ -1,7 +1,8 @@
-name: NFL Teams Data Load
-schedule:
-  quartz_cron_expression: "0 0 4 * * ?"  # Runs daily at 4 AM
-  timezone_id: "America/New_York"
+name: NFL Teams Data Load (On-Demand Only)
+# This job is intended to be run manually only when:
+# 1. Initial data load
+# 2. Team relocations (e.g., Raiders to Las Vegas)
+# 3. Team rebrands (e.g., Washington Football Team to Commanders)
 
 tasks:
   - task_key: "load_nfl_teams"
@@ -10,7 +11,7 @@ tasks:
       source: "WORKSPACE"
     email_notifications:
       on_failure:
-        - your.email@example.com  # Replace with your email
+        - dwiltse12@gmail.com
     timeout_seconds: 600
     retry_on_failure:
       max_retries: 2

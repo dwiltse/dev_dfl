@@ -1,3 +1,16 @@
+# NFL Teams Data Ingestion Script
+# This script loads NFL team information from nflreadr package to ADLS.
+# 
+# USAGE: This script is designed to be run on-demand only, not scheduled.
+# Run this job only when:
+# 1. Initial data load
+# 2. NFL team relocations (e.g., Raiders to Las Vegas)
+# 3. Team rebrands (e.g., Washington Football Team to Commanders)
+# 4. League expansion (extremely rare)
+#
+# Since NFL teams rarely change, there's no need for regular scheduling.
+# The data loaded here serves as reference data for other NFL analytics.
+
 # Install and load required packages
 if(!require(arrow)) install.packages("arrow")
 if(!require(nflreadr)) install.packages("nflreadr")
