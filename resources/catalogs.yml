@@ -1,0 +1,13 @@
+resources:  
+  catalogs:
+    dev_dfl:
+      name: dev_dfl
+      owner: dwiltse12@gmail.com
+      properties:
+        purpose: "Development catalog for NFL data"
+    
+    prod_dfl:
+      name: prod_dfl
+      owner: dwiltse12@gmail.com
+      properties:
+        purpose: "Production catalog for NFL data"

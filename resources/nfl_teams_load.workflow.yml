@@ -1,18 +1,18 @@
-name: NFL Teams Data Load (On-Demand Only)
-# This job is intended to be run manually only when:
-# 1. Initial data load
-# 2. Team relocations (e.g., Raiders to Las Vegas)
-# 3. Team rebrands (e.g., Washington Football Team to Commanders)
+resources:
+  jobs:
+    nfl_teams_load:
+      name: "NFL Teams Data Load (On-Demand Only)"
+      # This job is intended to be run manually only when:
+      # 1. Initial data load
+      # 2. Team relocations (e.g., Raiders to Las Vegas)
+      # 3. Team rebrands (e.g., Washington Football Team to Commanders)
 
-tasks:
-  - task_key: "load_nfl_teams"
-    notebook_task:
-      notebook_path: "/src/dev_dfl/load_nfl_teams"
-      source: "WORKSPACE"
-    email_notifications:
-      on_failure:
-        - dwiltse12@gmail.com
-    timeout_seconds: 600
-    retry_on_failure:
-      max_retries: 2
-      min_seconds_between_retries: 300
+      tasks:
+        - task_key: "load_nfl_teams"
+          notebook_task:
+            notebook_path: "/src/ingestion/load_nfl_teams"
+            source: "WORKSPACE"
+          email_notifications:
+            on_failure:
+              - dwiltse12@gmail.com
+          timeout_seconds: 600
